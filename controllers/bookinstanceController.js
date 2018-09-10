@@ -148,7 +148,7 @@ exports.bookinstance_update_get = function(req, res) {
 };
 
 // Handle bookinstance update on POST.
-exports.bookinstance_create_post = [
+exports.bookinstance_update_post = [
 
     // Validate fields.
     body('book', 'Book must be specified').isLength({ min: 1 }).trim(),

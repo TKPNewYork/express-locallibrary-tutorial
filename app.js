@@ -3,18 +3,20 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var compression = require('compression');
-var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var app = express();
 
+app.use(helmet());
+
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://grouse:2016richArd@ds131942.mlab.com:31942/local_library';
+var mongoDB = process.env.MONGODB_URI || 'mongodb://grouse:2016richArd@ds131942.mlab.com:31942/local_library';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -28,8 +30,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(compressions());
-app.use(helmet());
+
+app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
